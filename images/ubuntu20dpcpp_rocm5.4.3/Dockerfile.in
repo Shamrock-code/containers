@@ -1,4 +1,4 @@
-#include ../ubuntu20rocm543/Dockerfile.in
+#include ../ubuntu20rocm5.4.3/Dockerfile.in
 
 RUN mkdir compilers_gits
 RUN mkdir compilers

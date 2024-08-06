@@ -33,9 +33,9 @@ jobs:
           - imagename: ci-ubuntu20rocm543
             imagepath: ubuntu20rocm5.4.3
           - imagename: ci-ubuntu20cuda11dpcpp
-            imagepath: ubuntu20dpcppcuda11
+            imagepath: ubuntu20dpcpp_cuda11
           - imagename: ci-ubuntu20rocm543dpcpp
-            imagepath: ubuntu20dpcpprocm5.4.3
+            imagepath: ubuntu20dpcpp_rocm5.4.3
 
     steps:
       - name: Checkout repository

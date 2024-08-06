@@ -37,6 +37,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Preprocess image
+        run: |
+          python3 solve_includes.py -i images/${{ matrix.imagepath }}/Dockerfile.in -o images/${{ matrix.imagepath }}/Dockerfile
+
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign

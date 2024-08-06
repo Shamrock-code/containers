@@ -37,12 +37,11 @@ RUN git clone https://github.com/intel/llvm -b 2024-WW14
 WORKDIR /home/docker/compilers_gits/llvm
 
 # configure dpcpp
-RUN CUDA_LIB_PATH=~/opt/cuda/lib64/stubs \
-        python3 buildbot/configure.py \
+RUN python3 buildbot/configure.py \
         --llvm-external-projects compiler-rt \
-            --hip \
-            --cmake-opt="-DCMAKE_INSTALL_PREFIX=/home/docker/compilers/DPCPP" \
-            --cmake-opt="-DSYCL_BUILD_PI_HIP_ROCM_DIR=/opt/rocm"
+        --hip \
+        --cmake-opt="-DCMAKE_INSTALL_PREFIX=/home/docker/compilers/DPCPP" \
+        --cmake-opt="-DSYCL_BUILD_PI_HIP_ROCM_DIR=/opt/rocm"
 
 WORKDIR /home/docker/compilers_gits/llvm/build
 

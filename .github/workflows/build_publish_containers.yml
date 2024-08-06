@@ -25,7 +25,6 @@ jobs:
       matrix:
         include: 
           - imagename: ubuntu20
-            dockerfile: ubuntu20/Dockerfile
           #- image: user/app2
           #  imagename: ubuntu20
 
@@ -71,8 +70,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
-          context: .
-          file: ${{ matrix.dockerfile }}
+          context: ${{ matrix.imagename }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

@@ -1,3 +1,4 @@
-#include ../ubuntu20/Dockerfile
+#include ../ubuntu20/Dockerfile.in
+
 COPY install_cuda.sh /opt/src/scripts/install_cuda.sh
 RUN sh /opt/src/scripts/install_cuda.sh

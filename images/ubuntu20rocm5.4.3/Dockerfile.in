@@ -1,6 +1,4 @@
-# syntax=docker/dockerfile:1
-
-#include ../ubuntu20/Dockerfile
+#include ../ubuntu20/Dockerfile.in
 
 COPY install_rocm.sh /opt/src/scripts/install_rocm.sh
 RUN sh /opt/src/scripts/install_rocm.sh

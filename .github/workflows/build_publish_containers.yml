@@ -21,12 +21,13 @@ jobs:
       # with sigstore/fulcio when running outside of PRs.
       id-token: write
 
-    matrix:
-      include:
-        - imagename: ubuntu20
-          dockerfile: ubuntu20/Dockerfile
-        #- image: user/app2
-        #  imagename: ubuntu20
+    strategy:
+      matrix:
+        include: 
+          - imagename: ubuntu20
+            dockerfile: ubuntu20/Dockerfile
+          #- image: user/app2
+          #  imagename: ubuntu20
 
     steps:
       - name: Checkout repository

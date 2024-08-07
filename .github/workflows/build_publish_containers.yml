@@ -15,7 +15,6 @@ jobs:
 
   build:
 
-    runs-on: ${{ matrix.runner }}
     permissions:
       contents: read
       packages: write
@@ -23,24 +22,21 @@ jobs:
       # with sigstore/fulcio when running outside of PRs.
       id-token: write
 
+    runs-on: self-hosted
+
     strategy:
       matrix:
         include: 
           - imagename: ci-ubuntu20
             imagepath: ubuntu20
-            runner: ubuntu-latest
           - imagename: ci-ubuntu20cuda11
             imagepath: ubuntu20cuda11
-            runner: ubuntu-latest
           - imagename: ci-ubuntu20rocm543
             imagepath: ubuntu20rocm5.4.3
-            runner: ubuntu-latest
           - imagename: ci-ubuntu20cuda11dpcpp
             imagepath: ubuntu20dpcpp_cuda11
-            runner: self-hosted
           - imagename: ci-ubuntu20rocm543dpcpp
             imagepath: ubuntu20dpcpp_rocm5.4.3
-            runner: self-hosted
 
     steps:
       - name: Checkout repository

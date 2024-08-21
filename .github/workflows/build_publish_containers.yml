@@ -27,6 +27,8 @@ jobs:
         include: 
           - imagename: ci-ubuntu20
             imagepath: ubuntu20
+          - imagename: ci-ubuntu-latest
+            imagepath: ubuntu_latest
           - imagename: ci-ubuntu20cuda11
             imagepath: ubuntu20cuda11
           - imagename: ci-ubuntu20rocm543

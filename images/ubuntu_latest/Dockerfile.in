@@ -27,6 +27,22 @@ RUN apt update -y && apt upgrade -y && apt install -y \
 
 RUN echo 'docker ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
-#USER docker
+# USER docker
+
+# Fix for the issue 
+#  Error: fatal: detected dubious ownership in repository at '/__w/Shamrock/Shamrock/external/NVTX'
+#  To add an exception for this directory, call:
+#  	git config --global --add safe.directory /__w/Shamrock/Shamrock/external/NVTX
+#  Unable to find current revision in submodule path 'external/NVTX'
+#  Error: The process '/usr/bin/git' failed with exit code 1
+#
+# see : https://github.com/wmde/git-filter-repo-docker-action/pull/2/files
+# T314987: Git require the .git folder to be owned by the same user
+# 
+# So we disable the check as detailled here
+#https://stackoverflow.com/questions/71849415/i-cannot-add-the-parent-directory-to-safe-directory-in-git
+#
+RUN git config --global --add safe.directory '*'
+
 
 WORKDIR /home/docker

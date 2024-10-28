@@ -25,10 +25,10 @@ jobs:
     strategy:
       matrix:
         include: 
-          - imagename: ci-ubuntu20
-            imagepath: ubuntu20
           - imagename: ci-ubuntu-latest
             imagepath: ubuntu_latest
+          - imagename: ci-ubuntu20
+            imagepath: ubuntu20
           - imagename: ci-ubuntu20cuda11
             imagepath: ubuntu20cuda11
           - imagename: ci-ubuntu20rocm543
@@ -37,6 +37,16 @@ jobs:
             imagepath: ubuntu20dpcpp_cuda11
           - imagename: ci-ubuntu20rocm543dpcpp
             imagepath: ubuntu20dpcpp_rocm5.4.3
+          - imagename: ci-ubuntu22
+            imagepath: ubuntu22
+          - imagename: ci-ubuntu22cuda11
+            imagepath: ubuntu22cuda11
+          - imagename: ci-ubuntu22rocm543
+            imagepath: ubuntu22rocm5.4.3
+          - imagename: ci-ubuntu22cuda11dpcpp
+            imagepath: ubuntu22dpcpp_cuda11
+          - imagename: ci-ubuntu22rocm543dpcpp
+            imagepath: ubuntu22dpcpp_rocm5.4.3
 
     steps:
       - name: Checkout repository

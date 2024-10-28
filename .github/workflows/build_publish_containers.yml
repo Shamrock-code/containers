@@ -24,6 +24,7 @@ jobs:
       id-token: write
 
     strategy:
+      fail-fast: false
       matrix:
         include: 
           - imagename: ci-ubuntu-latest

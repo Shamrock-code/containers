@@ -3,7 +3,7 @@ name: Build and publish containers
 on:
   push:
     branches: [ "main" ]
-  pull_request
+  pull_request:
 
 env:
   # Use docker.io for Docker Hub if empty

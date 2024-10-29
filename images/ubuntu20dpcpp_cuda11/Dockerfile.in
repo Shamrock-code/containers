@@ -46,7 +46,7 @@ RUN CUDA_LIB_PATH=/opt/cuda/lib64/stubs \
 
 WORKDIR /home/docker/compilers_gits/llvm/build
 
-RUN ninja all tools/libdevice/libsycldevice
+RUN ninja all libsycldevice
 RUN ninja install
 
 WORKDIR /home/docker

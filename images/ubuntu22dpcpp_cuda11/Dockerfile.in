@@ -32,7 +32,8 @@ RUN clinfo
 ###################################
 WORKDIR /home/docker/compilers_gits
 
-RUN git clone https://github.com/intel/llvm -b nightly-2024-10-27
+# 2024-WW14 is used instead of a more recent one because of incompatibility with cuda 11
+RUN git clone https://github.com/intel/llvm -b 2024-WW14
 
 WORKDIR /home/docker/compilers_gits/llvm
 

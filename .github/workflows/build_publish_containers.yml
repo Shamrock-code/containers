@@ -44,9 +44,6 @@ jobs:
             imagetag:  ubuntu20rocm543
             imagepath: ubuntu20rocm5.4.3
           - imagename: shamrock-ci
-            imagetag:  ubuntu20cuda11dpcpp
-            imagepath: ubuntu20dpcpp_cuda11
-          - imagename: shamrock-ci
             imagetag:  ubuntu20cuda12dpcpp
             imagepath: ubuntu20dpcpp_cuda12
           - imagename: shamrock-ci
@@ -64,9 +61,6 @@ jobs:
           - imagename: shamrock-ci
             imagetag:  ubuntu22rocm543
             imagepath: ubuntu22rocm5.4.3
-          - imagename: shamrock-ci
-            imagetag:  ubuntu22cuda11dpcpp
-            imagepath: ubuntu22dpcpp_cuda11
           - imagename: shamrock-ci
             imagetag:  ubuntu22cuda12dpcpp
             imagepath: ubuntu22dpcpp_cuda12

@@ -3,6 +3,7 @@ name: Build and publish containers
 on:
   push:
     branches: [ "main" ]
+  pull_request:
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -13,6 +14,7 @@ env:
 
 jobs:
   build:
+    name: ${{ matrix.imagename }}:${{ matrix.imagetag }}
 
     runs-on: self-hosted
     permissions:
@@ -23,20 +25,48 @@ jobs:
       id-token: write
 
     strategy:
+      fail-fast: false
       matrix:
         include: 
-          - imagename: ci-ubuntu20
-            imagepath: ubuntu20
-          - imagename: ci-ubuntu-latest
+          - imagename: shamrock-ci
+            imagetag:  ubuntu-latest
             imagepath: ubuntu_latest
-          - imagename: ci-ubuntu20cuda11
+          - imagename: shamrock-ci
+            imagetag:  ubuntu20
+            imagepath: ubuntu20
+          - imagename: shamrock-ci
+            imagetag:  ubuntu20cuda11
             imagepath: ubuntu20cuda11
-          - imagename: ci-ubuntu20rocm543
+          - imagename: shamrock-ci
+            imagetag:  ubuntu20cuda12
+            imagepath: ubuntu20cuda12
+          - imagename: shamrock-ci
+            imagetag:  ubuntu20rocm543
             imagepath: ubuntu20rocm5.4.3
-          - imagename: ci-ubuntu20cuda11dpcpp
-            imagepath: ubuntu20dpcpp_cuda11
-          - imagename: ci-ubuntu20rocm543dpcpp
+          - imagename: shamrock-ci
+            imagetag:  ubuntu20cuda12dpcpp
+            imagepath: ubuntu20dpcpp_cuda12
+          - imagename: shamrock-ci
+            imagetag:  ubuntu20rocm543dpcpp
             imagepath: ubuntu20dpcpp_rocm5.4.3
+          - imagename: shamrock-ci
+            imagetag:  ubuntu22
+            imagepath: ubuntu22
+          - imagename: shamrock-ci
+            imagetag:  ubuntu22cuda11
+            imagepath: ubuntu22cuda11
+          - imagename: shamrock-ci
+            imagetag:  ubuntu22cuda12
+            imagepath: ubuntu22cuda12
+          - imagename: shamrock-ci
+            imagetag:  ubuntu22rocm543
+            imagepath: ubuntu22rocm5.4.3
+          - imagename: shamrock-ci
+            imagetag:  ubuntu22cuda12dpcpp
+            imagepath: ubuntu22dpcpp_cuda12
+          - imagename: shamrock-ci
+            imagetag:  ubuntu22rocm543dpcpp
+            imagepath: ubuntu22dpcpp_rocm5.4.3
 
     steps:
       - name: Checkout repository
@@ -77,6 +107,14 @@ jobs:
         uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/${{ matrix.imagename }}
+          tags: |
+            type=raw,enable=${{ github.ref_name == 'main' || github.event_name == 'pull_request' }},value=${{matrix.imagetag}},prefix=
+            type=sha
+            type=ref,event=branch
+          flavor: |
+            latest=auto
+            prefix=${{matrix.imagetag}},onlatest=true
+            suffix=
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action

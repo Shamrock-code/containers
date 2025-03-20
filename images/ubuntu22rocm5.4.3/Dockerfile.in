@@ -1,0 +1,4 @@
+#include ../ubuntu22/Dockerfile.in
+
+COPY install_rocm.sh /opt/src/scripts/install_rocm.sh
+RUN sh /opt/src/scripts/install_rocm.sh

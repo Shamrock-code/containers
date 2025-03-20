@@ -3,7 +3,12 @@ name: Build and publish containers
 on:
   push:
     branches: [ "main" ]
+
   pull_request:
+
+  schedule:
+    # At 00:00 on Thursday.
+    - cron:  '0 0 * * 4'
 
 env:
   # Use docker.io for Docker Hub if empty

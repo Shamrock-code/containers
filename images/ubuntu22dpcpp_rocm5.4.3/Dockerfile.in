@@ -1,4 +1,5 @@
-#include ../ubuntu22rocm5.4.3/Dockerfile.in
+ARG BRANCHNAME
+FROM ghcr.io/shamrock-code/shamrock-ci:ubuntu22rocm543${BRANCHNAME}
 
 RUN mkdir compilers_gits
 RUN mkdir compilers

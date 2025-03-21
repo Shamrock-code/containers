@@ -54,6 +54,7 @@ cd /home/docker
 rm -rf compilers_gits
 
 echo "int main() { return 0; }" > main.cpp
+export LD_LIBRARY_PATH=/home/docker/compilers/DPCPP/lib:$LD_LIBRARY_PATH
 /home/docker/compilers/DPCPP/bin/clang++ -fsycl -fsycl-targets=amdgcn-amd-amdhsa -Xsycl-target-backend --offload-arch=gfx906 --rocm-path=/opt/rocm main.cpp
 rm main.cpp
 rm a.out

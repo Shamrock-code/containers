@@ -54,6 +54,7 @@ cd /home/docker
 rm -rf compilers_gits
 
 echo "int main() { return 0; }" > main.cpp
+export LD_LIBRARY_PATH=/home/docker/compilers/DPCPP/lib:$LD_LIBRARY_PATH
 /home/docker/compilers/DPCPP/bin/clang++ -fsycl -fsycl-targets=nvidia_gpu_sm_50 main.cpp
 rm main.cpp
 rm a.out

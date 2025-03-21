@@ -15,6 +15,10 @@ on:
         type: string
         description: 'Image path'
         required: true
+      runson:
+        type: string
+        description: 'Run on'
+        required: true
 
 env:
 
@@ -27,7 +31,7 @@ jobs:
 
   build-and-push:
     name: ${{ inputs.imagename }}:${{ inputs.imagetag }}
-    runs-on: self-hosted
+    runs-on: ${{ inputs.runson }}
     permissions:
       contents: read
       packages: write

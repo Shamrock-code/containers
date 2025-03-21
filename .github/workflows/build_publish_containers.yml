@@ -30,6 +30,7 @@ jobs:
       imagename: shamrock-ci
       imagetag:  ubuntu-latest
       imagepath: ubuntu_latest
+      runson: ubuntu-latest
 
 
   build-ubuntu_20:
@@ -46,6 +47,7 @@ jobs:
       imagename: shamrock-ci
       imagetag:  ubuntu20
       imagepath: ubuntu20
+      runson: ubuntu-latest
 
 
   build-ubuntu_22:
@@ -62,6 +64,7 @@ jobs:
       imagename: shamrock-ci
       imagetag:  ubuntu22
       imagepath: ubuntu22
+      runson: ubuntu-latest
             
   build-ubuntu_20_cuda_12:
 
@@ -78,6 +81,7 @@ jobs:
       imagename: shamrock-ci
       imagetag:  ubuntu20cuda12
       imagepath: ubuntu20cuda12
+      runson: ubuntu-latest
 
   
   build-ubuntu_20_cuda_11:
@@ -95,6 +99,7 @@ jobs:
       imagename: shamrock-ci
       imagetag:  ubuntu20cuda11
       imagepath: ubuntu20cuda11
+      runson: ubuntu-latest
 
   build-ubuntu_22_cuda_12:
 
@@ -111,6 +116,7 @@ jobs:
       imagename: shamrock-ci
       imagetag:  ubuntu22cuda12
       imagepath: ubuntu22cuda12
+      runson: ubuntu-latest
 
   
   build-ubuntu_22_cuda_11:
@@ -128,6 +134,7 @@ jobs:
       imagename: shamrock-ci
       imagetag:  ubuntu22cuda11
       imagepath: ubuntu22cuda11
+      runson: ubuntu-latest
   
   build-ubuntu_20_rocm543:
 
@@ -144,6 +151,7 @@ jobs:
       imagename: shamrock-ci
       imagetag:  ubuntu20rocm543
       imagepath: ubuntu20rocm5.4.3
+      runson: ubuntu-latest
       
   build-ubuntu_22_rocm543:
 
@@ -160,6 +168,7 @@ jobs:
       imagename: shamrock-ci
       imagetag:  ubuntu22rocm543
       imagepath: ubuntu22rocm5.4.3
+      runson: ubuntu-latest
       
     
   build-ubuntu_20_dpcpp_cuda12:
@@ -177,6 +186,7 @@ jobs:
       imagename: shamrock-ci      
       imagetag:  ubuntu20cuda12dpcpp
       imagepath: ubuntu20dpcpp_cuda12
+      runson: self-hosted
 
   build-ubuntu_22_dpcpp_cuda12:
 
@@ -193,6 +203,7 @@ jobs:
       imagename: shamrock-ci      
       imagetag:  ubuntu22cuda12dpcpp
       imagepath: ubuntu22dpcpp_cuda12
+      runson: self-hosted
 
   build-ubuntu_20_dpcpp_rocm543:
 
@@ -209,6 +220,7 @@ jobs:
       imagename: shamrock-ci      
       imagetag:  ubuntu20rocm543dpcpp
       imagepath: ubuntu20dpcpp_rocm5.4.3
+      runson: self-hosted
 
   build-ubuntu_22_dpcpp_rocm543:
 
@@ -225,3 +237,4 @@ jobs:
       imagename: shamrock-ci      
       imagetag:  ubuntu22rocm543dpcpp
       imagepath: ubuntu22dpcpp_rocm5.4.3
+      runson: self-hosted

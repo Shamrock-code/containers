@@ -32,7 +32,6 @@ jobs:
       imagepath: ubuntu_latest
       runson: ubuntu-latest
 
-
   build-ubuntu_20:
 
     permissions:
@@ -48,7 +47,6 @@ jobs:
       imagetag:  ubuntu20
       imagepath: ubuntu20
       runson: ubuntu-latest
-
 
   build-ubuntu_22:
 
@@ -83,7 +81,6 @@ jobs:
       imagepath: ubuntu20cuda12
       runson: self-hosted
 
-  
   build-ubuntu_20_cuda_11:
 
     permissions:
@@ -118,7 +115,6 @@ jobs:
       imagepath: ubuntu22cuda12
       runson: self-hosted
 
-  
   build-ubuntu_22_cuda_11:
 
     permissions:
@@ -170,7 +166,6 @@ jobs:
       imagepath: ubuntu22rocm5.4.3
       runson: ubuntu-latest
       
-    
   build-ubuntu_20_dpcpp_cuda12:
 
     permissions:

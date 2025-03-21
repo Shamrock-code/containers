@@ -1,5 +1,5 @@
 ARG BRANCHNAME
-FROM shamrock-ci:ubuntu20${BRANCHNAME}
+FROM ghcr.io/shamrock-code/shamrock-ci:ubuntu20${BRANCHNAME}
 
 COPY install_cuda.sh /opt/src/scripts/install_cuda.sh
 RUN sh /opt/src/scripts/install_cuda.sh

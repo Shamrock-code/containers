@@ -1,4 +1,4 @@
-set -eu -o pipefail
+set -eu
 
 sudo apt install -y libnuma-dev cmake unzip
 wget --progress=bar:force -O - https://repo.radeon.com/rocm/rocm.gpg.key | sudo apt-key add -

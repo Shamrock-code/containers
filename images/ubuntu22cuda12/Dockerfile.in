@@ -1,5 +1,5 @@
 ARG BRANCHNAME
 FROM ghcr.io/shamrock-code/shamrock-ci:ubuntu22${BRANCHNAME}
 
-COPY install_cuda.sh /opt/src/scripts/install_cuda.sh
-RUN sh /opt/src/scripts/install_cuda.sh
+COPY install_cuda.sh install_cuda.sh
+RUN sh install_cuda.sh && rm install_cuda.sh

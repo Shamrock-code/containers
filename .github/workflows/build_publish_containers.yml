@@ -1,10 +1,7 @@
-name: Build and publish containers
+name: Build push
 
 on:
   push:
-    branches: [ "main" ]
-
-  pull_request:
 
   schedule:
     # At 00:00 on Thursday.
@@ -18,10 +15,9 @@ env:
   
 
 jobs:
-  build:
-    name: ${{ matrix.imagename }}:${{ matrix.imagetag }}
 
-    runs-on: self-hosted
+  build-ubuntu_latest:
+
     permissions:
       contents: read
       packages: write
@@ -29,123 +25,203 @@ jobs:
       # with sigstore/fulcio when running outside of PRs.
       id-token: write
 
-    strategy:
-      fail-fast: false
-      matrix:
-        include: 
-          - imagename: shamrock-ci
-            imagetag:  ubuntu-latest
-            imagepath: ubuntu_latest
-          - imagename: shamrock-ci
-            imagetag:  ubuntu20
-            imagepath: ubuntu20
-          - imagename: shamrock-ci
-            imagetag:  ubuntu20cuda11
-            imagepath: ubuntu20cuda11
-          - imagename: shamrock-ci
-            imagetag:  ubuntu20cuda12
-            imagepath: ubuntu20cuda12
-          - imagename: shamrock-ci
-            imagetag:  ubuntu20rocm543
-            imagepath: ubuntu20rocm5.4.3
-          - imagename: shamrock-ci
-            imagetag:  ubuntu20cuda12dpcpp
-            imagepath: ubuntu20dpcpp_cuda12
-          - imagename: shamrock-ci
-            imagetag:  ubuntu20rocm543dpcpp
-            imagepath: ubuntu20dpcpp_rocm5.4.3
-          - imagename: shamrock-ci
-            imagetag:  ubuntu22
-            imagepath: ubuntu22
-          - imagename: shamrock-ci
-            imagetag:  ubuntu22cuda11
-            imagepath: ubuntu22cuda11
-          - imagename: shamrock-ci
-            imagetag:  ubuntu22cuda12
-            imagepath: ubuntu22cuda12
-          - imagename: shamrock-ci
-            imagetag:  ubuntu22rocm543
-            imagepath: ubuntu22rocm5.4.3
-          - imagename: shamrock-ci
-            imagetag:  ubuntu22cuda12dpcpp
-            imagepath: ubuntu22dpcpp_cuda12
-          - imagename: shamrock-ci
-            imagetag:  ubuntu22rocm543dpcpp
-            imagepath: ubuntu22dpcpp_rocm5.4.3
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu-latest
+      imagepath: ubuntu_latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
 
-      - name: Preprocess image
-        run: |
-          python3 solve_includes.py -i images/${{ matrix.imagepath }}/Dockerfile.in -o images/${{ matrix.imagepath }}/Dockerfile
+  build-ubuntu_20:
 
-      # Install the cosign tool except on PR
-      # https://github.com/sigstore/cosign-installer
-      - name: Install cosign
-        if: github.event_name != 'pull_request'
-        uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 #v3.5.0
-        with:
-          cosign-release: 'v2.2.4'
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
 
-      # Set up BuildKit Docker container builder to be able to build
-      # multi-platform images and export cache
-      # https://github.com/docker/setup-buildx-action
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3.0.0
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu20
+      imagepath: ubuntu20
 
-      # Login against a Docker registry except on PR
-      # https://github.com/docker/login-action
-      - name: Log into registry ${{ env.REGISTRY }}
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Extract metadata (tags, labels) for Docker
-      # https://github.com/docker/metadata-action
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/${{ matrix.imagename }}
-          tags: |
-            type=raw,enable=${{ github.ref_name == 'main' || github.event_name == 'pull_request' }},value=${{matrix.imagetag}},prefix=
-            type=sha
-            type=ref,event=branch
-          flavor: |
-            latest=auto
-            prefix=${{matrix.imagetag}},onlatest=true
-            suffix=
+  build-ubuntu_22:
 
-      # Build and push Docker image with Buildx (don't push on PR)
-      # https://github.com/docker/build-push-action
-      - name: Build and push Docker image
-        id: build-and-push
-        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
-        with:
-          context: images/${{ matrix.imagepath }}
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha,scope=cache-${{ matrix.imagename }}
-          cache-to: type=gha,mode=max,scope=cache-${{ matrix.imagename }}
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
 
-      # Sign the resulting Docker image digest except on PRs.
-      # This will only write to the public Rekor transparency log when the Docker
-      # repository is public to avoid leaking data.  If you would like to publish
-      # transparency data even for private images, pass --force to cosign below.
-      # https://github.com/sigstore/cosign
-      - name: Sign the published Docker image
-        if: ${{ github.event_name != 'pull_request' }}
-        env:
-          # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
-          TAGS: ${{ steps.meta.outputs.tags }}
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
-        # This step uses the identity token to provision an ephemeral certificate
-        # against the sigstore community Fulcio instance.
-        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu22
+      imagepath: ubuntu22
+            
+  build-ubuntu_20_cuda_12:
 
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+
+    needs: [build-ubuntu_20]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu20cuda12
+      imagepath: ubuntu20cuda12
+
+  
+  build-ubuntu_20_cuda_11:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+      
+    needs: [build-ubuntu_20]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu20cuda11
+      imagepath: ubuntu20cuda11
+
+  build-ubuntu_22_cuda_12:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+
+    needs: [build-ubuntu_22]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu22cuda12
+      imagepath: ubuntu22cuda12
+
+  
+  build-ubuntu_22_cuda_11:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+      
+    needs: [build-ubuntu_22]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu22cuda11
+      imagepath: ubuntu22cuda11
+  
+  build-ubuntu_20_rocm543:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+      
+    needs: [build-ubuntu_20]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu20rocm543
+      imagepath: ubuntu20rocm5.4.3
+      
+  build-ubuntu_22_rocm543:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+      
+    needs: [build-ubuntu_22]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu22rocm543
+      imagepath: ubuntu22rocm5.4.3
+      
+    
+  build-ubuntu_20_dpcpp_cuda12:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+      
+    needs: [build-ubuntu_20_cuda_12]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci      
+      imagetag:  ubuntu20cuda12dpcpp
+      imagepath: ubuntu20dpcpp_cuda12
+
+  build-ubuntu_22_dpcpp_cuda12:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+      
+    needs: [build-ubuntu_22_cuda_12]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci      
+      imagetag:  ubuntu22cuda12dpcpp
+      imagepath: ubuntu22dpcpp_cuda12
+
+  build-ubuntu_20_dpcpp_rocm543:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+      
+    needs: [build-ubuntu_20_rocm543]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci      
+      imagetag:  ubuntu20rocm543dpcpp
+      imagepath: ubuntu20dpcpp_rocm5.4.3
+
+  build-ubuntu_22_dpcpp_rocm543:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+      
+    needs: [build-ubuntu_22_rocm543]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci      
+      imagetag:  ubuntu22rocm543dpcpp
+      imagepath: ubuntu22dpcpp_rocm5.4.3

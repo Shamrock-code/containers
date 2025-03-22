@@ -1,4 +1,5 @@
-#include ../ubuntu22/Dockerfile.in
+ARG BRANCHNAME
+FROM ghcr.io/shamrock-code/shamrock-ci:ubuntu22${BRANCHNAME}
 
 COPY install_rocm.sh /opt/src/scripts/install_rocm.sh
 RUN sh /opt/src/scripts/install_rocm.sh

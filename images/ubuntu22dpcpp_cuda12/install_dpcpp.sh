@@ -32,7 +32,7 @@ clinfo
 ###################################
 cd /home/docker/compilers_gits
 
-git clone https://github.com/intel/llvm --depth=1 -b v6.0.0
+git clone https://github.com/intel/llvm --depth=1 -b v6.0.1
 
 cd /home/docker/compilers_gits/llvm
 

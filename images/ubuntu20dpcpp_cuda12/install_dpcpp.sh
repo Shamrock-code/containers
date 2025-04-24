@@ -8,15 +8,7 @@ mkdir compilers
 ###################################
 #update cmake
 sudo apt-get update
-sudo apt-get install -y ca-certificates gpg wget
-wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
-sudo apt-get update
-sudo rm /usr/share/keyrings/kitware-archive-keyring.gpg
-sudo apt-get install -y kitware-archive-keyring
-sudo apt-get update
-sudo apt-get install -y cmake
-
+sudo pip3 install cmake==3.31.6
 
 #esimd requirement
 sudo apt install -y libva-dev libffi-dev libtool
@@ -32,7 +24,7 @@ clinfo
 ###################################
 cd /home/docker/compilers_gits
 
-git clone https://github.com/intel/llvm --depth=1 -b v6.0.0
+git clone https://github.com/intel/llvm --depth=1 -b v6.0.1
 
 cd /home/docker/compilers_gits/llvm
 

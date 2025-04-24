@@ -8,7 +8,7 @@ mkdir compilers
 ###################################
 #update cmake
 sudo apt-get update
-sudo pip3 install cmake==3.22.1
+sudo pip3 install cmake==3.31.6
 
 #esimd requirement
 sudo apt install -y libva-dev libffi-dev libtool

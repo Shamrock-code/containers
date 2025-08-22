@@ -1,0 +1,5 @@
+ARG BRANCHNAME
+FROM ghcr.io/shamrock-code/shamrock-ci:ubuntu-latest${BRANCHNAME}
+
+COPY install_llvm.sh install_llvm.sh
+RUN sh install_llvm.sh && rm install_llvm.sh

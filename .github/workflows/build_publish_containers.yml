@@ -41,6 +41,7 @@ jobs:
       # with sigstore/fulcio when running outside of PRs.
       id-token: write
 
+    needs: [build-ubuntu_latest]
     uses: ./.github/workflows/build-and-push.yml
     with:
       imagename: shamrock-ci

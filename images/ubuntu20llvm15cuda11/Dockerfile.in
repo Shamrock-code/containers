@@ -1,0 +1,5 @@
+ARG BRANCHNAME
+FROM ghcr.io/shamrock-code/shamrock-ci:ubuntu20llvm15${BRANCHNAME}
+
+COPY install_cuda.sh install_cuda.sh
+RUN sh install_cuda.sh && rm install_cuda.sh

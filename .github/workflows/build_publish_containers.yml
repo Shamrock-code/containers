@@ -100,6 +100,24 @@ jobs:
       imagepath: ubuntu20llvm15
       runson: self-hosted
 
+
+  build-ubuntu_20_llvm_18:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+      
+    needs: [build-ubuntu_20]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu20llvm18
+      imagepath: ubuntu20llvm18
+      runson: self-hosted
+
   build-ubuntu_20_cuda_12:
 
     permissions:

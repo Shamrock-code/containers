@@ -82,7 +82,57 @@ jobs:
       runson: ubuntu-latest
             
 
-  
+  build-ubuntu_24:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu24
+      imagepath: ubuntu24
+      runson: ubuntu-latest
+            
+
+  build-ubuntu_24_llvm_18:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+
+    needs: [build-ubuntu_24]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu24-llvm18
+      imagepath: ubuntu24_llvm18
+      runson: ubuntu-latest
+
+  build-ubuntu_24_llvm_20:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+
+    needs: [build-ubuntu_24]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu24-llvm20
+      imagepath: ubuntu24_llvm20
+      runson: ubuntu-latest
+          
   build-ubuntu_20_llvm_15:
 
     permissions:

@@ -80,7 +80,6 @@ jobs:
       imagetag:  ubuntu22
       imagepath: ubuntu22
       runson: ubuntu-latest
-            
 
   build-ubuntu_24:
 
@@ -98,7 +97,6 @@ jobs:
       imagepath: ubuntu24
       runson: ubuntu-latest
             
-
   build-ubuntu_24_llvm_18:
 
     permissions:
@@ -149,7 +147,6 @@ jobs:
       imagetag:  ubuntu20llvm15
       imagepath: ubuntu20llvm15
       runson: self-hosted
-
 
   build-ubuntu_20_llvm_18:
 

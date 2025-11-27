@@ -21,8 +21,7 @@ RUN apt update -y && apt upgrade -y && apt install -y \
         ninja-build \
         libboost-all-dev \
         doxygen \
-        graphviz \
-        latexmk
+        graphviz
 
 RUN echo 'docker ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 

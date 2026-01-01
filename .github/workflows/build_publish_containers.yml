@@ -148,6 +148,23 @@ jobs:
       imagepath: ubuntu20llvm15
       runson: self-hosted
 
+  build-ubuntu_22_llvm_18:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+      
+    needs: [build-ubuntu_22]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu22llvm18
+      imagepath: ubuntu22llvm18
+      runson: self-hosted
+
   build-ubuntu_20_llvm_18:
 
     permissions:
@@ -216,6 +233,58 @@ jobs:
       imagepath: ubuntu20llvm15cuda11
       runson: self-hosted
 
+  build-ubuntu_22_llvm_15:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+      
+    needs: [build-ubuntu_22]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu22llvm15
+      imagepath: ubuntu22llvm15
+      runson: self-hosted
+
+  build-ubuntu_22_llvm_15_rocm543:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+      
+    needs: [build-ubuntu_22_llvm_15]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu22llvm15rocm543
+      imagepath: ubuntu22llvm15rocm5.4.3
+      runson: ubuntu-latest
+
+  build-ubuntu_22_llvm_15_cuda_11:
+
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+      
+    needs: [build-ubuntu_22_llvm_15]
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      imagename: shamrock-ci
+      imagetag:  ubuntu22llvm15cuda11
+      imagepath: ubuntu22llvm15cuda11
+      runson: self-hosted
+
+            
   build-ubuntu_22_cuda_12:
 
     permissions:
